@@ -5,18 +5,18 @@
 ### Run API using Deno
 
 
-> Powershell
+> Install Deno with Powershell
 
 ```curl -fsSL https://deno.land/x/install/install.sh | sh```
 
 
-> Start server usin Denox
+> Start server usin Deno
 
 ```deno run --allow-net --allow-write --allow-read --allow-plugin --allow-env --unstable index.ts```
 
 
 ### Run API using Denox
-> Powershell
+> Install Denox
 
 ```deno install -Af -n denox https://denopkg.com/BentoumiTech/denox/denox.ts```
 
