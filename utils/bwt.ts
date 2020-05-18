@@ -1,7 +1,7 @@
 import * as bwt from "https://denopkg.com/chiefbiiko/bwt@v0.5.0/mod.ts"
 
-const tokenGenerator: any = { ...bwt.generateKeyPair()}
-const tokenDecoder: any = { ...bwt.generateKeyPair()}
+const tokenGenerator: any = { ...bwt.generateKeyPair() }
+const tokenDecoder: any = { ...bwt.generateKeyPair() }
 
 tokenGenerator.stringify = bwt.createStringify(tokenGenerator.secretKey, {
   kid: tokenDecoder.kid,
@@ -39,14 +39,14 @@ function decodeToken(token: string) {
 
 
 export async function validateToken(context: any, next: any) {
-  try {    
+  try {
     const authorization = context.request.headers.get('authorization')
-  
-    if(!authorization) {
+
+    if (!authorization) {
       throw new Error('Missing token')
     }
 
-    if(authorization.indexOf('Bearer ') == -1) {
+    if (authorization.indexOf('Bearer ') == -1) {
       throw new Error('Invalid token')
     }
 
@@ -57,7 +57,7 @@ export async function validateToken(context: any, next: any) {
     if (!isValid) {
       throw new Error('Invalid token')
     }
-  
+
     await next()
   } catch (error) {
     context.response.body = { error: error.message }
