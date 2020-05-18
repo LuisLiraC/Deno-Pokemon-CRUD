@@ -10,7 +10,7 @@
 ```curl -fsSL https://deno.land/x/install/install.sh | sh```
 
 
-> Start server usin Deno
+> Start server using Deno
 
 ```deno run --allow-net --allow-write --allow-read --allow-plugin --allow-env --unstable index.ts```
 
