@@ -1,0 +1,10 @@
+scripts:
+  start:
+    file: index.ts
+    deno_options:
+      allow-net: true
+      allow-write: true
+      allow-read: true
+      allow-plugin: true
+      allow-env: true
+      unstable: true
