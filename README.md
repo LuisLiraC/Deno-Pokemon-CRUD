@@ -1,4 +1,4 @@
-# My fist "CRUD" with Deno
+# My first "CRUD" with Deno
 
 Install Deno
 
