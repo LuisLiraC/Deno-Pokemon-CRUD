@@ -2,22 +2,22 @@ import { IPokemon } from '../interface/IPokemon.ts'
 
 export let PokemonList: Array<IPokemon> = [
   {
-    id: 1,
+    pokedexId: 1,
     name: 'Bulbasaur',
     types: ['Grass', 'Poison']
   },
   {
-    id: 4,
+    pokedexId: 4,
     name: 'Charmander',
     types: ['Fire']
   },
   {
-    id: 7,
+    pokedexId: 7,
     name: 'Squirtle',
     types: ['Water']
   },
   {
-    id: 25,
+    pokedexId: 25,
     name: 'Pikachu',
     types: ['Electric']
   }

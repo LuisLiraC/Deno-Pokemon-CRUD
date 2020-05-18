@@ -1,5 +1,5 @@
 export interface IPokemon {
-  id: number
+  pokedexId: number
   name: string
   types: Array<string>
 }

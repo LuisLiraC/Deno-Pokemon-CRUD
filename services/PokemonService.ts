@@ -1,32 +1,37 @@
-import { PokemonList } from '../data/PokemonData.ts'
 import { IPokemon } from '../interface/IPokemon.ts'
+import { MongoLib } from '../lib/MongoLib.ts'
 
 export class PokemonService {
+  private collection: string
+  private db: MongoLib
 
-  List(): Array<IPokemon> {
-    return PokemonList
+  constructor() {
+    this.collection = 'pokemon'
+    this.db = new MongoLib()
   }
 
-  Get(id: number): IPokemon {
-    const foundPokemon: IPokemon = PokemonList.filter(p => p.id === id)[0]
-    return foundPokemon
+  async List(): Promise<Array<IPokemon> | []> {
+    const pokemonList = await this.db.getAll(this.collection)
+    return pokemonList || []
   }
 
-  Create(pokemon: IPokemon): string {
-    PokemonList.push(pokemon)
-    return 'Pokemon added successfully'
+  async Get(id: string): Promise<IPokemon | {}> {
+    const pokemon = await this.db.get(this.collection, id)
+    return pokemon || {}
   }
 
-  Update(id: number, data: IPokemon): string {
-    const foundPokemon: IPokemon = PokemonList.filter(p => p.id == id)[0]
-    foundPokemon.name = data.name
-    foundPokemon.types = data.types
-    return 'Pokemon updated successfully'
+  async Create(pokemon: IPokemon): Promise<{}> {
+    const createdPokemon = await this.db.create(this.collection, pokemon)
+    return createdPokemon || {}
   }
 
-  Delete(id: number): string {
-    const index =  PokemonList.findIndex(p => p.id == id)
-    PokemonList.splice(index, 1)
-    return 'Pokemon deleted successfully'
+  async Update(id: string, data: IPokemon): Promise<{}> {
+    const updatedPokemon = await this.db.update(this.collection, id, data)
+    return updatedPokemon || {}
+  }
+
+  async Delete(id: string): Promise<{}> {
+    const deletedPokemon = await this.db.delete(this.collection, id)
+    return deletedPokemon
   }
 }

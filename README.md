@@ -5,5 +5,5 @@ Install Deno
 Powershell
 ```curl -fsSL https://deno.land/x/install/install.sh | sh```
 
-Run
-```deno run --allow-net index.ts```
+Start
+```deno run --allow-net --allow-write --allow-read --allow-plugin --unstable index.ts```

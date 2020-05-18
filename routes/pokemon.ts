@@ -15,7 +15,7 @@ function pokemonRouter(app: Application) {
   })
 
   router.get('/pokemon/:id', async ({ response, params }: { response: any, params: any }) => {
-    const FoundPokemon = await pokemonService.Get(+params.id)
+    const FoundPokemon = await pokemonService.Get(params.id)
     response.body = FoundPokemon
     response.status = 200
   })
@@ -31,13 +31,13 @@ function pokemonRouter(app: Application) {
   router.put('/pokemon/:id', async ({ request, response, params }: { request: any, response: any, params: any }) => {
     const body = await request.body()
     const newPokemonData: IPokemon = body.value
-    const message = await pokemonService.Update(+params.id, newPokemonData)
+    const message = await pokemonService.Update(params.id, newPokemonData)
     response.body = { message }
     response.status = 200
   })
 
   router.delete('/pokemon/:id', async ({ response, params }: { response: any, params: any }) => {
-    const message = await pokemonService.Delete(+params.id)
+    const message = await pokemonService.Delete(params.id)
     response.body = { message }
     response.status = 200
   })
