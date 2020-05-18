@@ -1,25 +1,23 @@
 import * as bwt from "https://denopkg.com/chiefbiiko/bwt@v0.5.0/mod.ts"
 
-const tokenGenerator: any = { ...bwt.generateKeyPair() }
-const tokenDecoder: any = { ...bwt.generateKeyPair() }
+const tokenMaganer: any = { ...bwt.generateKeyPair() }
 
-tokenGenerator.stringify = bwt.createStringify(tokenGenerator.secretKey, {
-  kid: tokenDecoder.kid,
-  publicKey: tokenDecoder.publicKey
+tokenMaganer.stringify = bwt.createStringify(tokenMaganer.secretKey, {
+  kid: tokenMaganer.kid,
+  publicKey: tokenMaganer.publicKey
 })
 
-tokenDecoder.parse = bwt.createParse(tokenDecoder.secretKey, {
-  kid: tokenGenerator.kid,
-  publicKey: tokenGenerator.publicKey
+tokenMaganer.parse = bwt.createParse(tokenMaganer.secretKey, {
+  kid: tokenMaganer.kid,
+  publicKey: tokenMaganer.publicKey
 })
 
 export function sign(email: string) {
-
   const iat = Date.now()
   const exp = iat + 1000000
 
-  const token = tokenGenerator.stringify(
-    { typ: bwt.Typ.BWTv0, kid: tokenGenerator.kid, iat, exp },
+  const token = tokenMaganer.stringify(
+    { typ: bwt.Typ.BWTv0, kid: tokenMaganer.kid, iat, exp },
     { email }
   )
 
@@ -27,16 +25,9 @@ export function sign(email: string) {
 }
 
 function decodeToken(token: string) {
-
-  const content = tokenDecoder.parse(token)
-
-  if (!content) {
-    return false
-  }
-
-  return true
+  const content = tokenMaganer.parse(token)
+  return !content ? false : true
 }
-
 
 export async function validateToken(context: any, next: any) {
   try {
@@ -51,7 +42,6 @@ export async function validateToken(context: any, next: any) {
     }
 
     const token = authorization.replace('Bearer ', '')
-
     const isValid = decodeToken(token)
 
     if (!isValid) {
