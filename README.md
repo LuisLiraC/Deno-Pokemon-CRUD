@@ -6,4 +6,4 @@ Powershell
 ```curl -fsSL https://deno.land/x/install/install.sh | sh```
 
 Start
-```deno run --allow-net --allow-write --allow-read --allow-plugin --unstable index.ts```
+```deno run --allow-net --allow-write --allow-read --allow-plugin --allow-env --unstable index.ts```
