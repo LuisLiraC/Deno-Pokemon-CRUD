@@ -1,41 +1,32 @@
 import { PokemonList } from '../data/PokemonData.ts'
 import { IPokemon } from '../interface/IPokemon.ts'
 
-export const getPokemonList = ({ response }: { response: any }) => {
-  response.body = PokemonList
-  response.status = 200
-}
+export class PokemonService {
 
-export const getPokemon = ({ response, params }: { response: any, params: any }) => {
-  const foundPokemon: IPokemon = PokemonList.filter(p => p.id == params.id)[0]
-  response.body = foundPokemon
-  response.status = 200
-}
+  List(): Array<IPokemon> {
+    return PokemonList
+  }
 
-export const addPokemon = async ({ request, response }: { request: any, response: any }) => {
-  const body = await request.body()
-  const pokemon: IPokemon = body.value
-  PokemonList.push(pokemon)
-  response.body = { pokemonAdded: 'Pokemon added' }
-  response.status = 201
-}
+  Get(id: number): IPokemon {
+    const foundPokemon: IPokemon = PokemonList.filter(p => p.id === id)[0]
+    return foundPokemon
+  }
 
-export const updatePokemon = async ({ request, response, params }: { request: any, response: any, params: any }) => {
-  const body = await request.body()
-  const newPokemonData: IPokemon = body.value
-  const foundPokemon: IPokemon = PokemonList.filter(p => p.id == params.id)[0]
+  Create(pokemon: IPokemon): string {
+    PokemonList.push(pokemon)
+    return 'Pokemon added successfully'
+  }
 
-  foundPokemon.name = newPokemonData.name
-  foundPokemon.types = newPokemonData.types
+  Update(id: number, data: IPokemon): string {
+    const foundPokemon: IPokemon = PokemonList.filter(p => p.id == id)[0]
+    foundPokemon.name = data.name
+    foundPokemon.types = data.types
+    return 'Pokemon updated successfully'
+  }
 
-  response.body = { pokemonUpdated: 'Pokemon updated' }
-  response.status = 200
-}
-
-export const deletePokemon = ({ response, params }: { response: any, params: any }) => {
-  const index =  PokemonList.findIndex(p => p.id == params.id)
-  PokemonList.splice(index, 1)
-
-  response.body = { pokemonDeleted: 'Pokemon deleted' }
-  response.status = 200
+  Delete(id: number): string {
+    const index =  PokemonList.findIndex(p => p.id == id)
+    PokemonList.splice(index, 1)
+    return 'Pokemon deleted successfully'
+  }
 }
