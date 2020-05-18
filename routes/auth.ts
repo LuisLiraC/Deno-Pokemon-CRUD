@@ -12,16 +12,12 @@ function authRouter(app: Application) {
     try {
       const body = await request.body()
       const user: IUser = body.value
-      const result = await userService.Login(user)
-
-      if (!result) {
-        throw new Error('Invalid credentials')
-      }
+      const token = await userService.Login(user)
   
-      response.body = { message: 'Ok' }
+      response.body = { token }
       response.status = 200
     } catch (error) {
-      response.body = { message: error.message }
+      response.body = { error: error.message }
       response.status = 401
     }
 
@@ -30,13 +26,14 @@ function authRouter(app: Application) {
   router.post('/api/sign-up', async ({ request, response }: { request: any, response: any }) => {
     try {      
       const body = await request.body()
+
       const user: IUser = body.value
-      const result = await userService.Create(user)
+      const token = await userService.Create(user)
   
-      response.body = { message: 'User created' }
+      response.body = { message: 'User created', token }
       response.status = 201
     } catch (error) {
-      response.body = {message: error.message}
+      response.body = {error: error.message}
       response.status = 400
     }
   })

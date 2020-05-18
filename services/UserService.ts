@@ -1,6 +1,7 @@
 import { IUser } from '../interface/IUser.ts'
 import { MongoLib } from '../lib/MongoLib.ts'
 import { hashPwd, comparePwd } from '../utils/auth.ts'
+import { sign } from '../utils/bwt.ts'
 
 export class UserService {
   private collection: string
@@ -13,8 +14,19 @@ export class UserService {
 
   async Login(user: IUser) {
     const [dbUser]: [IUser] = await this.db.getAll(this.collection, { email: user.email })
+
+    if (!dbUser) {
+      throw new Error('Invalid credentials')
+    }
+
     const result = comparePwd(user.password, dbUser.password)
-    return result
+
+    if (!result) {
+      throw new Error('Invalid credentials')
+    }
+
+    const token = await this.GetToken(user.email)
+    return token
   }
 
   async Create(user: IUser): Promise<string> {
@@ -27,6 +39,12 @@ export class UserService {
     user.password = hashedPwd
     await this.db.create(this.collection, user)
 
-    return 'User created'
+    const token = await this.GetToken(user.email)
+    return token
+  }
+
+  private async GetToken(email: string) {
+    const token = sign(email)
+    return token
   }
 }
