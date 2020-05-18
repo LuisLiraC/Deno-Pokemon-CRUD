@@ -21,14 +21,13 @@ export class MongoLib {
     } catch (error) {
       console.log(error)
     }
-
   }
 
-  async getAll(collection: string) {
+  async getAll(collection: string, query?: object) {
     try {
       await this.connect()
       this.coll = this.db.collection(collection)
-      const result = await this.coll.find()
+      const result = await this.coll.find(query)
       return result
     } catch (error) {
       console.log(error)
@@ -43,7 +42,6 @@ export class MongoLib {
       return result
     } catch (error) {
       console.log(error)
-      
     }
   }
 
